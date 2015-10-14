@@ -1,23 +1,26 @@
-var set = [];
+const findAllSubsets = (arr, curSet = []) => {
+  if (arr.length === 0) { return console.log(curSet); }
 
-var findAllSubsets = function(arr, from) {
-  if (from === arr.length) {
-    console.log(set);
-    return;
-  }
-  findAllSubsets(arr, from + 1);  // Not taking arr[from]
-  set.push(arr[from]);
-  findAllSubsets(arr, from + 1);  // Taking arr[from]
-  set.splice(set.length - 1);
+  const nextArr = arr.slice(1);
+  findAllSubsets(nextArr, curSet);
+  curSet.push(arr[0]);
+  findAllSubsets(nextArr, curSet);
+  curSet.pop();
 };
 
-var findAllSubsets2 = function(arr, from) {
-  console.log(set);
-  for (var i = from; i < arr.length; i++) {
-    set.push(arr[i]);
-    findAllSubsets2(arr, i + 1);
-    set.splice(set.length - 1);
+const findAllSubsets2 = (arr, curSet = []) => {
+  console.log(curSet);
+  for (let i = 0; i < arr.length; i++) {
+    // i is the first element in arr we choose to put into set
+    curSet.push(arr[i]);
+    findAllSubsets2(arr.slice(i + 1), curSet);
+    curSet.pop();
   }
 };
 
-findAllSubsets2([0, 1, 2], 0);
+const test = (func) => {
+  func([0, 1, 2]);
+};
+
+test(findAllSubsets);
+test(findAllSubsets2);
